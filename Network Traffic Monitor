@@ -1,0 +1,31 @@
+from scapy.all import sniff, IP, TCP, UDP
+
+# Callback function to process each packet
+def process_packet(packet):
+    if IP in packet:
+        ip_src = packet[IP].src
+        ip_dst = packet[IP].dst
+        proto = packet[IP].proto
+
+        print(f"[IP] Src: {ip_src}, Dst: {ip_dst}, Protocol: {proto}")
+
+    if TCP in packet:
+        print(f"[TCP] Src Port: {packet[TCP].sport}, Dst Port: {packet[TCP].dport}")
+
+    if UDP in packet:
+        print(f"[UDP] Src Port: {packet[UDP].sport}, Dst Port: {packet[UDP].dport}")
+
+    print("---")
+
+# Function to start sniffing network traffic
+def start_sniffing(interface="eth0"):
+    print(f"Starting network traffic monitor on interface: {interface}")
+    sniff(iface=interface, prn=process_packet, store=False)
+
+# Main entry point
+if __name__ == "__main__":
+    interface = input("Enter the network interface to monitor (e.g., eth0, wlan0): ")
+    try:
+        start_sniffing(interface)
+    except Exception as e:
+        print(f"An error occurred: {e}")
