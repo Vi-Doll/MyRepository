@@ -1,0 +1,34 @@
+import socket
+
+# Function to resolve a domain name to an IP address
+def resolve_domain(domain):
+    try:
+        ip_address = socket.gethostbyname(domain)
+        print(f"Domain: {domain}\nIP Address: {ip_address}")
+    except socket.gaierror as e:
+        print(f"Failed to resolve {domain}: {e}")
+
+# Function for reverse DNS lookup
+def reverse_dns(ip_address):
+    try:
+        domain_name = socket.gethostbyaddr(ip_address)[0]
+        print(f"IP Address: {ip_address}\nDomain Name: {domain_name}")
+    except socket.herror as e:
+        print(f"Failed to perform reverse DNS lookup for {ip_address}: {e}")
+
+# Main function
+if __name__ == "__main__":
+    print("DNS Query Resolver")
+    print("1. Resolve Domain to IP")
+    print("2. Reverse DNS Lookup")
+
+    choice = input("Enter your choice (1/2): ")
+
+    if choice == "1":
+        domain = input("Enter the domain name (e.g., example.com): ")
+        resolve_domain(domain)
+    elif choice == "2":
+        ip_address = input("Enter the IP address (e.g., 8.8.8.8): ")
+        reverse_dns(ip_address)
+    else:
+        print("Invalid choice. Please select 1 or 2.")
